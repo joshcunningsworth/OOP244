@@ -1,0 +1,175 @@
+jacunningham@matrix:~> script jacunningham_ws5-6.txt
+Script started, file is jacunningham_ws5-6.txt
+jacunningham@matrix:~> whoami
+jacunningham
+jacunningham@matrix:~> cat ws5-6_expressions.cpp Sum.cpp Sum.h
+//============================================================================
+// Name        : ws5-6_expressions.cpp
+// Author      : Josh Cunningham
+//============================================================================
+
+#include <iostream>
+#include "Sum.h"
+using namespace std;
+
+int main(){
+	int n = 0;
+	cout << "how many numbers to sum together? ";
+	cin >> n;
+	Sum list(n);
+
+	do{
+		if(cin.fail()){
+			cin.clear();
+			cin.ignore(1000,'\n');
+
+		}
+		cout << "Add a number to the sum (0 to quit):";
+		if(cin >> n && n != 0)
+			list += n;
+		else if(cin.fail())
+			cerr << "Error, please re-enter" << endl;
+	}while(cin.fail() || n != 0);
+	list.display();
+
+	cout << "--------------------------------------" << endl;
+	cout << "Copy Tests(Should not crash/Segfault!)" << endl;
+	Sum blank;
+	int numbers[] = {1,2,3,4};
+	Sum set(numbers, 4);
+
+	cout << "Copy Constructor" << endl;
+	Sum New = set; // calls copy ctor
+	cout << "Operator= Tests" << endl;
+	blank = set;
+	cout << "Self Assignment" << endl;
+	set = set;
+	cout << "Destructor/safe copy test" << endl;
+	Sum * dest = new Sum();
+	*dest = set;
+	delete dest;
+	set.display();
+}
+/*
+Sum.cpp
+Author: Josh
+ */
+
+#include "Sum.h"
+#include <cstring>
+#include <iostream>
+using namespace std;
+
+Sum::Sum(){
+	n = nullptr;
+	sum = 0;
+	amount = 0;
+	total = 0;
+}
+
+Sum::Sum(int num){
+	n = new int[num];
+	sum = num;
+	amount = 0;
+	total = 0;
+}
+
+Sum::Sum(const int *numbers, int length){
+	total = 0;
+	amount = 0;
+	sum = 0;
+	sum = length;
+	n = new int [length];
+	for(int x = 0; x < length; x++){
+		*this+=numbers[x];
+	}
+}
+
+void Sum::display() const{
+	for(int x = 0; x < sum ; x++){
+		cout << n[x];
+		if(x+1 < sum){
+			cout << "+";
+		}
+	}
+	cout << "=" << amount << "\n";
+}
+
+Sum& Sum::operator+=(int num){
+	if(total < sum){
+		n[total++] = num;
+		amount = amount + num;
+	}
+	else{
+		cout << "No Room for anymore numbers " << num << " has not been added\n";
+	}
+	return *this;
+}
+
+Sum::Sum(Sum& src){
+	n = nullptr;
+	*this=src;
+}
+
+Sum& Sum::operator=(Sum& src){
+	if(this != &src){
+		sum = src.sum;
+		amount = src.amount;
+		total = src.total;
+
+		if(n != nullptr){
+			delete [] n;
+			n = nullptr;
+		}
+
+		if(src.n != nullptr){
+			n = new int [src.sum];
+			for(int x = 0; src.sum < x; x++){
+				n[x] = src.n[x];
+			}
+		}
+	}
+     
+	return *this;
+}
+/*
+Sum.h
+Author: Josh
+*/
+
+class Sum{
+
+	int *n;
+	int sum;
+	int amount;
+	int total;
+
+	public:
+		Sum();
+		Sum(int);
+		Sum(Sum&); // copy ctor
+		Sum& operator=(Sum&); // assignment operator
+		~Sum(){if(n != nullptr){delete [] n;}} // dtor deallocate dynamic memory
+		Sum(const int *, int);
+		void display() const;
+		Sum& operator+=(int); // operator overload
+};
+jacunningham@matrix:~> g++ -std=c++0x -o ws5-6 ws5-6_expressions.cpp Sum.cpp
+jacunningham@matrix:~> ws5-6
+how many numbers to sum together? 2
+Add a number to the sum (0 to quit):69
+Add a number to the sum (0 to quit):8008
+Add a number to the sum (0 to quit):1
+No Room for anymore numbers 1 has not been added
+Add a number to the sum (0 to quit):0
+69+8008=8077
+--------------------------------------
+Copy Tests(Should not crash/Segfault!)
+Copy Constructor
+Operator= Tests
+Self Assignment
+Destructor/safe copy test
+1+2+3+4=10
+jacunningham@matrix:~> exit
+exit
+Script done, file is jacunningham_ws5-6.txt

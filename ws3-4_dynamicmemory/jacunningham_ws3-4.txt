@@ -1,0 +1,459 @@
+Last login: Fri Oct  3 22:51:00 on ttys000
+Joshs-MacBook-Pro:~ Josh$ ssh jacunningham@matrix.senecac.on.ca
+Password: 
+Last login: Fri Oct  3 22:51:09 2014 from cpe00265afdf1bf-cm0012c9a01328.cpe.net.cable.rogers.com
+Have a lot of fun...
+jacunningham@matrix:~> nled Molecule.cpp
+jacunningham@matrix:~> script jacunningham_ws3-4.txt
+Script started, file is jacunningham_ws3-4.txt
+jacunningham@matrix:~> whoami
+jacunningham
+jacunningham@matrix:~> cat ws3-4_dynamicmemory.cpp Molecule.h Molecule.cpp
+/*
+ ============================================================================
+ Name        : ws3-4_dynamicmemory.cpp
+ Author      : Josh Cunningham
+ ============================================================================
+ */
+
+#include <iostream>
+#include <iomanip>
+#include <new>
+#include "Molecule.h"
+using namespace std;
+
+int main() {
+
+	int n;
+	Molecule* molecule = nullptr;
+
+	cout << "Molecular Information\n";
+	cout << "=====================" << endl;
+
+	cout << "Number of Molecules : ";
+	cin >> n;
+	cout << endl;
+
+	molecule = new(nothrow) Molecule[n];
+	if (molecule == nullptr){
+	 cout << "No data Available" << endl;
+		};
+
+	// allocates dynamic memory for an array of n Molecules
+	for (int i = 0; i < n; i++) {
+		char temp_symbol[21], temp_desc[201];
+		double temp_weight = 0;
+
+		cin.clear();
+		cin.ignore(2000,'\n');
+
+		cout << "Enter Structure: ";
+		cin.getline(temp_symbol, 21);
+		cout << endl;
+
+		cout << "Enter Full Name: ";
+		cin.getline(temp_desc, 201);
+		cout << endl;
+
+		cout << "Enter weight: ";
+		cin >> temp_weight;
+
+		molecule[i].Setsymbol(temp_symbol);
+		molecule[i].Setdesc(temp_desc);
+		molecule[i].Setweight(temp_weight);
+		cout << endl;
+
+	}
+
+	cout << "Structure    Mass Name\n";
+     cout << "========================================" << endl;
+
+	for (int i = 0; i < n; i++) {
+	 molecule[i].display();
+	 cout << endl;
+     }
+
+	cout << endl;
+	// deallocate dynamic memory for the array of n Molecules
+	delete [] molecule;
+	molecule = nullptr;
+}
+/*
+ ============================================================================
+ Name        : Molecule.h
+ Author      : Josh Cunningham
+ ============================================================================
+ */
+
+class Molecule{
+
+	char symbol[21];
+	char description[201];
+	double weight;
+
+	public:
+		void display() const;
+		void Setsymbol(char temp_symbol[21]);
+		void Setdesc(char temp_desc[201]);
+		void Setweight(double temp_weight);
+};
+/*
+ ============================================================================
+ Name        : Molecule.cpp
+ Author      : Josh Cunningham
+ ============================================================================
+ */
+
+#include <iostream>
+#include <iomanip>
+#include <new>
+#include <cstring>
+#include "Molecule.h"
+using namespace std;
+
+// function that copies symbol to temp_symbol
+void Molecule::Setsymbol(char temp_symbol[21]){
+	strcpy (symbol,temp_symbol);
+}
+
+// function that copies the description to temp_desc
+void Molecule::Setdesc(char temp_desc[201]){
+	strcpy (description,temp_desc);
+}
+
+// function that copies weight to temp_weight
+void Molecule::Setweight(double temp_weight){
+	weight = temp_weight;
+}
+
+void Molecule::display() const{
+
+	// formatting the output of the molecules
+	cout.width(10);
+	cout << std::left << symbol;
+	cout.width(7);
+
+	// sets the decimal place to be fixed at 3
+	std::cout << std::fixed;
+	cout << std::setprecision(3);
+	cout << std::right << weight;
+	cout << " " << description << endl;
+
+
+}
+jacunningham@matrix:~> g++ -o ws3-4 ws3-4_dynamicmemory.cpp Molecule.cpp
+ws3-4_dynamicmemory.cpp: In function ‘int main()’:
+ws3-4_dynamicmemory.cpp:17:23: error: ‘nullptr’ was not declared in this scope
+jacunningham@matrix:~> exit
+exit
+Script done, file is jacunningham_ws3-4.txt
+jacunningham@matrix:~> script jacunningham_ws3-4.txt
+Script started, file is jacunningham_ws3-4.txt
+jacunningham@matrix:~> cat ws3-4_dynamicmemory.cpp Molecule.h Molecule.cpp
+/*
+ ============================================================================
+ Name        : ws3-4_dynamicmemory.cpp
+ Author      : Josh Cunningham
+ ============================================================================
+ */
+
+#include <iostream>
+#include <iomanip>
+#include <new>
+#include "Molecule.h"
+using namespace std;
+
+int main() {
+
+	int n;
+	Molecule* molecule = nullptr;
+
+	cout << "Molecular Information\n";
+	cout << "=====================" << endl;
+
+	cout << "Number of Molecules : ";
+	cin >> n;
+	cout << endl;
+
+	molecule = new(nothrow) Molecule[n];
+	if (molecule == nullptr){
+	 cout << "No data Available" << endl;
+		};
+
+	// allocates dynamic memory for an array of n Molecules
+	for (int i = 0; i < n; i++) {
+		char temp_symbol[21], temp_desc[201];
+		double temp_weight = 0;
+
+		cin.clear();
+		cin.ignore(2000,'\n');
+
+		cout << "Enter Structure: ";
+		cin.getline(temp_symbol, 21);
+		cout << endl;
+
+		cout << "Enter Full Name: ";
+		cin.getline(temp_desc, 201);
+		cout << endl;
+
+		cout << "Enter weight: ";
+		cin >> temp_weight;
+
+		molecule[i].Setsymbol(temp_symbol);
+		molecule[i].Setdesc(temp_desc);
+		molecule[i].Setweight(temp_weight);
+		cout << endl;
+
+	}
+
+	cout << "Structure    Mass Name\n";
+     cout << "========================================" << endl;
+
+	for (int i = 0; i < n; i++) {
+	 molecule[i].display();
+	 cout << endl;
+     }
+
+	cout << endl;
+	// deallocate dynamic memory for the array of n Molecules
+	delete [] molecule;
+	molecule = nullptr;
+}
+/*
+ ============================================================================
+ Name        : Molecule.h
+ Author      : Josh Cunningham
+ ============================================================================
+ */
+
+class Molecule{
+
+	char symbol[21];
+	char description[201];
+	double weight;
+
+	public:
+		void display() const;
+		void Setsymbol(char temp_symbol[21]);
+		void Setdesc(char temp_desc[201]);
+		void Setweight(double temp_weight);
+};
+/*
+ ============================================================================
+ Name        : Molecule.cpp
+ Author      : Josh Cunningham
+ ============================================================================
+ */
+
+#include <iostream>
+#include <iomanip>
+#include <new>
+#include <cstring>
+#include "Molecule.h"
+using namespace std;
+
+// function that copies symbol to temp_symbol
+void Molecule::Setsymbol(char temp_symbol[21]){
+	strcpy (symbol,temp_symbol);
+}
+
+// function that copies the description to temp_desc
+void Molecule::Setdesc(char temp_desc[201]){
+	strcpy (description,temp_desc);
+}
+
+// function that copies weight to temp_weight
+void Molecule::Setweight(double temp_weight){
+	weight = temp_weight;
+}
+
+void Molecule::display() const{
+
+	// formatting the output of the molecules
+	cout.width(10);
+	cout << std::left << symbol;
+	cout.width(7);
+
+	// sets the decimal place to be fixed at 3
+	std::cout << std::fixed;
+	cout << std::setprecision(3);
+	cout << std::right << weight;
+	cout << " " << description << endl;
+
+
+}
+jacunningham@matrix:~> exit
+exit
+Script done, file is jacunningham_ws3-4.txt
+jacunningham@matrix:~> nled .bashrc
+jacunningham@matrix:~> script jacunningham_ws3-4.txt
+Script started, file is jacunningham_ws3-4.txt
+jacunningham@matrix:~> cat ws3-4_dynamicmemory.cpp Molecule.h Molecule.cpp
+/*
+ ============================================================================
+ Name        : ws3-4_dynamicmemory.cpp
+ Author      : Josh Cunningham
+ ============================================================================
+ */
+
+#include <iostream>
+#include <iomanip>
+#include <new>
+#include "Molecule.h"
+using namespace std;
+
+int main() {
+
+	int n;
+	Molecule* molecule = nullptr;
+
+	cout << "Molecular Information\n";
+	cout << "=====================" << endl;
+
+	cout << "Number of Molecules : ";
+	cin >> n;
+	cout << endl;
+
+	molecule = new(nothrow) Molecule[n];
+	if (molecule == nullptr){
+	 cout << "No data Available" << endl;
+		};
+
+	// allocates dynamic memory for an array of n Molecules
+	for (int i = 0; i < n; i++) {
+		char temp_symbol[21], temp_desc[201];
+		double temp_weight = 0;
+
+		cin.clear();
+		cin.ignore(2000,'\n');
+
+		cout << "Enter Structure: ";
+		cin.getline(temp_symbol, 21);
+		cout << endl;
+
+		cout << "Enter Full Name: ";
+		cin.getline(temp_desc, 201);
+		cout << endl;
+
+		cout << "Enter weight: ";
+		cin >> temp_weight;
+
+		molecule[i].Setsymbol(temp_symbol);
+		molecule[i].Setdesc(temp_desc);
+		molecule[i].Setweight(temp_weight);
+		cout << endl;
+
+	}
+
+	cout << "Structure    Mass Name\n";
+     cout << "========================================" << endl;
+
+	for (int i = 0; i < n; i++) {
+	 molecule[i].display();
+	 cout << endl;
+     }
+
+	cout << endl;
+	// deallocate dynamic memory for the array of n Molecules
+	delete [] molecule;
+	molecule = nullptr;
+}
+/*
+ ============================================================================
+ Name        : Molecule.h
+ Author      : Josh Cunningham
+ ============================================================================
+ */
+
+class Molecule{
+
+	char symbol[21];
+	char description[201];
+	double weight;
+
+	public:
+		void display() const;
+		void Setsymbol(char temp_symbol[21]);
+		void Setdesc(char temp_desc[201]);
+		void Setweight(double temp_weight);
+};
+/*
+ ============================================================================
+ Name        : Molecule.cpp
+ Author      : Josh Cunningham
+ ============================================================================
+ */
+
+#include <iostream>
+#include <iomanip>
+#include <new>
+#include <cstring>
+#include "Molecule.h"
+using namespace std;
+
+// function that copies symbol to temp_symbol
+void Molecule::Setsymbol(char temp_symbol[21]){
+	strcpy (symbol,temp_symbol);
+}
+
+// function that copies the description to temp_desc
+void Molecule::Setdesc(char temp_desc[201]){
+	strcpy (description,temp_desc);
+}
+
+// function that copies weight to temp_weight
+void Molecule::Setweight(double temp_weight){
+	weight = temp_weight;
+}
+
+void Molecule::display() const{
+
+	// formatting the output of the molecules
+	cout.width(10);
+	cout << std::left << symbol;
+	cout.width(7);
+
+	// sets the decimal place to be fixed at 3
+	std::cout << std::fixed;
+	cout << std::setprecision(3);
+	cout << std::right << weight;
+	cout << " " << description << endl;
+
+
+}
+jacunningham@matrix:~> g++ -o ws3-4 ws3-4_dynamicmemory.cpp Molecule.cpp
+jacunningham@matrix:~> ws3-4
+Molecular Information
+=====================
+Number of Molecules : 3
+
+Enter Structure: H2O
+
+Enter Full Name: Water
+
+Enter weight: 18.015
+
+Enter Structure: CO2
+
+Enter Full Name: Carbon Dioxide
+
+Enter weight: 44.010
+
+Enter Structure: NaCl
+
+Enter Full Name: Sodium Chloride
+
+Enter weight: 58.443
+
+Structure    Mass Name
+========================================
+H2O        18.015 Water
+
+CO2        44.010 Carbon Dioxide
+
+NaCl       58.443 Sodium Chloride
+
+
+jacunningham@matrix:~> exit
+exit
+Script done, file is jacunningham_ws3-4.txt
